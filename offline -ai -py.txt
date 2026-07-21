@@ -1,0 +1,35 @@
+from llama_cpp import Llama
+
+MODEL_PATH = r"C:\AI\MAGISTAL-SMALL-2506-UD-Q8-K-XL.GGUF"
+
+def process_query(query):
+    llm = Llama(
+        model_path=MODEL_PATH,
+        n_ctx=2048,
+        verbose=False
+    )
+
+    response = llm(
+        query,
+        max_tokens=200,
+        temperature=0.7
+    )
+
+    return response["choices"][0]["text"].strip()
+
+def main():
+    print("Offline AI is ready. Type your question and press Enter.")
+    while True:
+        user_query = input("\nYou: ").strip()
+        if user_query.lower() in ["exit", "quit"]:
+            print("Goodbye.")
+            break
+
+        try:
+            answer = process_query(user_query)
+            print("\nAI:", answer)
+        except Exception as e:
+            print("\nError:", e)
+
+if __name__ == "__main__":
+    main()
